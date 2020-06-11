@@ -12,12 +12,13 @@
    
 </body>
 </html> -->
-
+<!-- 
 <!DOCTYPE html>
 <meta charset="utf-8" />
 <title>WebSocket Test</title>
 <script language="javascript" type="text/javascript">
    var wsUri = "wss://echo.websocket.org/";
+   // var wsUri = 'ws://achex.ca:4010';
    var output;
 
    function init() {
@@ -45,14 +46,9 @@
          websocket.send(document.querySelector("#inputTest").value)
          document.querySelector("#inputTest").value = "";
          // onMessage(document.querySelector("#inputTest").value);
-      } 
-
-
-
+      }
    })
    }
-
-  
 
    function onOpen(evt) {
       writeToScreen("CONNECTED");
@@ -91,4 +87,52 @@
 <h2>WebSocket Test</h2>
    <input id ="inputTest"type="text">
 
-<div id="output"></div>
+<div id="output"></div> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   <script>
+      var ws;
+      function IniciarConexion(){
+         ws = new WebSocket("ws://achex.ca:4010");
+         ws.onopen = function(){
+            alert("conexion abierta");
+
+            ws.send('{"setID":"MichatRoom", "passwd":"12345"}');
+         }
+         ws.onmessage = function(Mensajes){
+            var MensajesObtenidos = Mensajes.data
+            //alert("Mensajes obtenidos: " + MensajesObtenidos)
+            // var x = document.createElement("p")
+            var mensaje = JSON.parse(MensajesObtenidos);
+            document.body.append(`<p>${mensaje.content}</p>`)
+         }
+         ws.onclose = function(){
+            alert("COnexion cerrada")
+         }
+      }
+
+   </script>
+
+
+   <div>
+      <input type="button" value="Iniciar WebSocket" onclick="IniciarConexion()">
+      <input type="text" id="Mensaje">
+      <input type="button" id="buttonId" value="Enviar Mensaje">
+   </div>
+
+   <script>
+      document.querySelector("#buttonId").addEventListener("click", function(){
+         // ws.send(document.querySelector("#Mensaje").value)
+         ws.send(`{"to":"MichatRoom", "NombreU":"Oscar", "content":"${document.querySelector("#Mensaje").value}"}`);
+      })
+   </script>
+
+</body>
+</html>
