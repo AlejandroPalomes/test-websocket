@@ -39,11 +39,20 @@
       websocket.onerror = function (evt) {
          onError(evt)
       };
+      document.addEventListener("keyup", (e)=>{
+      console.log("listener OK");
+      if(e.keyCode === 13){
+         websocket.send(document.querySelector("#inputTest").value)
+         document.querySelector("#inputTest").value = "";
+         // onMessage(document.querySelector("#inputTest").value);
+      } 
+
+
+
+   })
    }
 
-   document.addEventListener("keyup", (e)=>{
-      if(e.keyCode === 13) onMessage(document.querySelector("#inputTest").value);
-   })
+  
 
    function onOpen(evt) {
       writeToScreen("CONNECTED");
@@ -55,6 +64,7 @@
    }
 
    function onMessage(evt) {
+      console.log("onMessage", evt)
       writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data + '</span>');
       // websocket.close();
    }
