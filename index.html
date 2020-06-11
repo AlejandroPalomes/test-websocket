@@ -41,6 +41,10 @@
       };
    }
 
+   document.addEventListener("keyup", (e)=>{
+      if(e.keyCode === 13) onMessage(document.querySelector("#inputTest").value);
+   })
+
    function onOpen(evt) {
       writeToScreen("CONNECTED");
       doSend("WebSocket rocks");
@@ -75,7 +79,6 @@
 </script>
 
 <h2>WebSocket Test</h2>
-
-<input id ="inputTest"type="text">
+   <input id ="inputTest"type="text">
 
 <div id="output"></div>
